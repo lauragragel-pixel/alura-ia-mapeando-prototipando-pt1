@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aetheria — Minha Rotina Diária</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Objetos 3D Tridimensionais Flutuando ao Fundo -->
+  <div class="bg-3d-scene">
+    <div class="cube shape-1">
+      <div class="face front"></div>
+      <div class="face back"></div>
+      <div class="face right"></div>
+      <div class="face left"></div>
+      <div class="face top"></div>
+      <div class="face bottom"></div>
+    </div>
+    
+    <div class="pyramid shape-2">
+      <div class="p-face p-front"></div>
+      <div class="p-face p-back"></div>
+      <div class="p-face p-left"></div>
+      <div class="p-face p-right"></div>
+      <div class="p-face p-bottom"></div>
+    </div>
+
+    <div class="sphere shape-3"></div>
+
+    <div class="cube shape-4">
+      <div class="face front"></div>
+      <div class="face back"></div>
+      <div class="face right"></div>
+      <div class="face left"></div>
+      <div class="face top"></div>
+      <div class="face bottom"></div>
+    </div>
+  </div>
+
+  <!-- Conteúdo Principal -->
+  <div class="app-container">
+    <header class="header">
+      <div class="badge">SISTEMA DE ROTINA DIÁRIA</div>
+      <h1>Aetheria <span>Life System</span></h1>
+      <p>Organize seus estudos, treinos, alimentação e descanso em um só lugar.</p>
+    </header>
+
+    <main class="cards-grid">
+      
+      <!-- Card 1: Escola -->
+      <article class="card" onclick="openModal('escola')">
+        <div class="card-icon">🏫</div>
+        <span class="card-category">Educação</span>
+        <h3>Escola & Presencial</h3>
+        <p class="card-desc">Foco total nas aulas, anotações de matérias e organização dos trabalhos.</p>
+        <div class="card-footer">
+          <span class="status active">07:00 - 12:30</span>
+          <span class="btn-more">Ver Detalhes →</span>
+        </div>
+      </article>
+
+      <!-- Card 2: Academia -->
+      <article class="card" onclick="openModal('academia')">
+        <div class="card-icon">🏋️‍♂️</div>
+        <span class="card-category">Alta Performance</span>
+        <h3>Academia & Treino</h3>
+        <p class="card-desc">Musculação, hipertrofia, exercícios compostos e cardio pós-treino.</p>
+        <div class="card-footer">
+          <span class="status active">16:30 - 18:00</span>
+          <span class="btn-more">Ver Detalhes →</span>
+        </div>
+      </article>
+
+      <!-- Card 3: Cozinha -->
+      <article class="card" onclick="openModal('cozinha')">
+        <div class="card-icon">🍳</div>
+        <span class="card-category">Nutrição</span>
+        <h3>Cozinha & Meal Prep</h3>
+        <p class="card-desc">Preparo diário de refeições saudáveis, marmitas e controle de macros.</p>
+        <div class="card-footer">
+          <span class="status active">13:00 / 19:30</span>
+          <span class="btn-more">Ver Detalhes →</span>
+        </div>
+      </article>
+
+      <!-- Card 4: Estudo / Tarefas -->
+      <article class="card" onclick="openModal('estudo')">
+        <div class="card-icon">📚</div>
+        <span class="card-category">Desenvolvimento</span>
+        <h3>Estudo Extra & Tarefas</h3>
+        <p class="card-desc">Revisão das matérias da escola, leituras diárias e trabalhos em casa.</p>
+        <div class="card-footer">
+          <span class="status active">14:30 - 16:00</span>
+          <span class="btn-more">Ver Detalhes →</span>
+        </div>
+      </article>
+
+      <!-- Card 5: Saúde -->
+      <article class="card" onclick="openModal('saude')">
+        <div class="card-icon">🌿</div>
+        <span class="card-category">Bem-Estar</span>
+        <h3>Saúde & Hidratação</h3>
+        <p class="card-desc">Meta de consumo de água, suplementação correta e sono reparador.</p>
+        <div class="card-footer">
+          <span class="status active">Integral</span>
+          <span class="btn-more">Ver Detalhes →</span>
+        </div>
+      </article>
+
+      <!-- Card 6: Lazer -->
+      <article class="card" onclick="openModal('lazer')">
+        <div class="card-icon">🎮</div>
+        <span class="card-category">Desconexão</span>
+        <h3>Lazer & Descanso</h3>
+        <p class="card-desc">Jogos, redes sociais, séries e tempo livre para descompressão.</p>
+        <div class="card-footer">
+          <span class="status pending">20:30 - 22:30</span>
+          <span class="btn-more">Ver Detalhes →</span>
+        </div>
+      </article>
+
+    </main>
+  </div>
+
+  <!-- Estrutura do Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOuterClick(event)">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div id="modalBody">
+        <!-- Conteúdo dinâmico preenchido via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Embutido -->
+  <script>
+    const routinesData = {
+      escola: {
+        title: "Escola & Presencial",
+        icon: "🏫",
+        category: "Educação",
+        time: "07:00 - 12:30",
+        goals: [
+          "Prestar atenção total nas matérias do dia e fazer anotações",
+          "Anotar datas de provas e prazos de trabalhos na agenda",
+          "Manter a mochila e cadernos organizados para o dia seguinte"
+        ],
+        notes: "Dica: Garanta um café da manhã leve antes de ir para manter a atenção durante as primeiras aulas."
+      },
+      academia: {
+        title: "Academia & Treino",
+        icon: "🏋️‍♂️",
+        category: "Alta Performance",
+        time: "16:30 - 18:00",
+        goals: [
+          "Executar a ficha do dia com carga progressiva e boa forma",
+          "Realizar 15 a 20 minutos de cardio ao final da sessão",
+          "Manter garrafa de água cheia e hidratar entre os sets"
+        ],
+        notes: "Dica: Faça um bom pré-treino com carboidrato complexo cerca de 1 hora antes de ir para a academia."
+      },
+      cozinha: {
+        title: "Cozinha & Meal Prep",
+        icon: "🍳",
+        category: "Nutrição",
+        time: "13:00 - 13:45 / 19:30 - 20:30",
+        goals: [
+          "Preparar o almoço focado em proteínas e carboidratos limpos",
+          "Cozinhar o jantar e adiantar as marmitas do dia seguinte",
+          "Lavar a louça e deixar a bancada da cozinha limpa e organizada"
+        ],
+        notes: "Dica: Cozinhar porções maiores de arroz, frango ou legumes no início da semana economiza muito tempo diário."
+      },
+      estudo: {
+        title: "Estudo Extra & Tarefas",
+        icon: "📚",
+        category: "Desenvolvimento",
+        time: "14:30 - 16:00",
+        goals: [
+          "Resolver os deveres de casa da escola antes que acumulem",
+          "Revisar o conteúdo das aulas com técnica Pomodoro (25/5 min)",
+          "Leitura diária de 15 a 20 páginas de um livro de seu interesse"
+        ],
+        notes: "Dica: Coloque o celular em outro cômodo ou em modo 'Foco' durante este bloco para render mais."
+      },
+      saude: {
+        title: "Saúde & Hidratação",
+        icon: "🌿",
+        category: "Bem-Estar",
+        time: "Ao longo do dia",
+        goals: [
+          "Beber no mínimo 3 Litros de água espalhados pelo dia",
+          "Tomar os suplementos da academia (Creatina, Multivitamínico, etc)",
+          "Garantir 8 horas de sono desligando telas até 22:30"
+        ],
+        notes: "Dica: Tome 500ml de água logo ao acordar para ligar o metabolismo e hidratar o corpo."
+      },
+      lazer: {
+        title: "Lazer & Descanso",
+        icon: "🎮",
+        category: "Desconexão",
+        time: "20:30 - 22:30",
+        goals: [
+          "Jogar seu game favorito ou assistir a um filme/série",
+          "Conversar com amigos e momentos de descontração pura",
+          "Preparar o ambiente do quarto escuro e fresco para dormir"
+        ],
+        notes: "Dica: Evite responder mensagens de estudo/trabalho neste horário para que seu cérebro desacelere."
+      }
+    };
+
+    function openModal(key) {
+      const data = routinesData[key];
+      if (!data) return;
+
+      const modalBody = document.getElementById('modalBody');
+      const modalOverlay = document.getElementById('modalOverlay');
+
+      modalBody.innerHTML = `
+        <div class="modal-header">
+          <div class="modal-icon">${data.icon}</div>
+          <div>
+            <span class="card-category">${data.category}</span>
+            <h2>${data.title}</h2>
+          </div>
+        </div>
+        
+        <div class="modal-info-bar">
+          <div class="info-item">
+            <span>Horário Planejado</span>
+            <strong>${data.time}</strong>
+          </div>
+        </div>
+
+        <div class="modal-section">
+          <h4>Metas Principais do Bloco</h4>
+          <ul class="modal-checklist">
+            ${data.goals.map(goal => `<li><input type="checkbox"> <span>${goal}</span></li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="modal-section">
+          <h4>Dica Estratégica</h4>
+          <p class="modal-notes">${data.notes}</p>
+        </div>
+      `;
+
+      modalOverlay.classList.add('active');
+    }
+
+    function closeModal() {
+      const modalOverlay = document.getElementById('modalOverlay');
+      modalOverlay.classList.remove('active');
+    }
+
+    function closeModalOnOuterClick(event) {
+      if (event.target.classList.contains('modal-overlay')) {
+        closeModal();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>
