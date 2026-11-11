@@ -1,0 +1,419 @@
+/* ==========================================================
+   RESET & CONFIGURAÇÕES BASE
+   ========================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #030308;
+  color: #f1f5f9;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ==========================================================
+   CENA 3D & OBJETOS FLUTUANTES (FUNDO TRIDIMENSIONAL)
+   ========================================================== */
+.bg-3d-scene {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  perspective: 1000px;
+  overflow: hidden;
+  pointer-events: none;
+  /* Degradê Tricolor ao Fundo: Roxo Elétrico, Azul Neon e Rosa Magenta */
+  background: radial-gradient(circle at 15% 20%, rgba(124, 58, 237, 0.25) 0%, transparent 45%),
+              radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.2) 0%, transparent 40%),
+              radial-gradient(circle at 50% 85%, rgba(236, 72, 153, 0.2) 0%, transparent 50%);
+}
+
+/* Cubo 3D */
+.cube {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  transform-style: preserve-3d;
+  animation: floatRotateCube 22s infinite linear;
+}
+
+.cube .face {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 20px rgba(124, 58, 237, 0.2);
+}
+
+.cube .front  { transform: translateZ(50px); background: rgba(124, 58, 237, 0.15); }
+.cube .back   { transform: rotateY(180deg) translateZ(50px); background: rgba(6, 182, 212, 0.15); }
+.cube .right  { transform: rotateY(90deg) translateZ(50px); background: rgba(236, 72, 153, 0.15); }
+.cube .left   { transform: rotateY(-90deg) translateZ(50px); }
+.cube .top    { transform: rotateX(90deg) translateZ(50px); }
+.cube .bottom { transform: rotateX(-90deg) translateZ(50px); }
+
+/* Pirâmide 3D */
+.pyramid {
+  position: absolute;
+  width: 0;
+  height: 0;
+  transform-style: preserve-3d;
+  animation: floatRotatePyramid 18s infinite linear;
+}
+
+.p-face {
+  position: absolute;
+  border-left: 60px solid transparent;
+  border-right: 60px solid transparent;
+  border-bottom: 110px solid rgba(6, 182, 212, 0.15);
+  transform-origin: 50% 100%;
+}
+
+.p-front  { transform: rotateX(30deg); }
+.p-back   { transform: rotateY(180deg) rotateX(30deg); border-bottom-color: rgba(236, 72, 153, 0.15); }
+.p-left   { transform: rotateY(-90deg) rotateX(30deg); border-bottom-color: rgba(124, 58, 237, 0.15); }
+.p-right  { transform: rotateY(90deg) rotateX(30deg); }
+
+/* Esfera Glow 3D */
+.sphere {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(236, 72, 153, 0.4), rgba(124, 58, 237, 0.05));
+  box-shadow: 0 0 40px rgba(236, 72, 153, 0.3), inset -10px -10px 25px rgba(6, 182, 212, 0.4);
+  animation: floatSphere 15s ease-in-out infinite alternate;
+}
+
+/* Posicionamento dos Objetos */
+.shape-1 { top: 10%; left: 8%; transform: scale(0.9); }
+.shape-2 { top: 65%; left: 82%; transform: scale(0.8); }
+.shape-3 { top: 18%; left: 75%; }
+.shape-4 { top: 75%; left: 15%; transform: scale(0.6); }
+
+/* Animações 3D */
+@keyframes floatRotateCube {
+  0% { transform: translateY(0) rotateX(0deg) rotateY(0deg); }
+  50% { transform: translateY(-30px) rotateX(180deg) rotateY(180deg); }
+  100% { transform: translateY(0) rotateX(360deg) rotateY(360deg); }
+}
+
+@keyframes floatRotatePyramid {
+  0% { transform: translateY(0) rotateY(0deg) rotateZ(0deg); }
+  50% { transform: translateY(35px) rotateY(180deg) rotateZ(15deg); }
+  100% { transform: translateY(0) rotateY(360deg) rotateZ(0deg); }
+}
+
+@keyframes floatSphere {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-40px) scale(1.1); }
+}
+
+/* ==========================================================
+   LAYOUT PRINCIPAL
+   ========================================================== */
+.app-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  padding: 40px 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 45px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 16px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #06b6d4;
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: 50px;
+  margin-bottom: 12px;
+}
+
+.header h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.header h1 span {
+  background: linear-gradient(135deg, #7c3aed, #06b6d4, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.header p {
+  color: #94a3b8;
+  margin-top: 8px;
+  font-size: 1.05rem;
+}
+
+/* GRID DE CARDS */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+/* ==========================================================
+   CARDS EM GLASSMORPHISM 3D
+   ========================================================== */
+.card {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 28px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, #7c3aed, #06b6d4, #ec4899);
+  opacity: 0.4;
+  transition: opacity 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 20px 40px rgba(124, 58, 237, 0.25);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card-icon {
+  font-size: 2.2rem;
+  margin-bottom: 15px;
+}
+
+.card-category {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #ec4899;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.card h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.card-desc {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 15px;
+  font-size: 0.85rem;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.status.active {
+  background: rgba(6, 182, 212, 0.15);
+  color: #06b6d4;
+}
+
+.status.pending {
+  background: rgba(236, 72, 153, 0.15);
+  color: #ec4899;
+}
+
+.btn-more {
+  color: #f1f5f9;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.card:hover .btn-more {
+  transform: translateX(4px);
+  color: #06b6d4;
+}
+
+/* ==========================================================
+   MODAL (EFEITO OVERLAY)
+   ========================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(3, 3, 8, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  padding: 20px;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-card {
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  width: 100%;
+  max-width: 550px;
+  border-radius: 24px;
+  padding: 35px;
+  position: relative;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7);
+  transform: translateY(30px);
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-overlay.active .modal-card {
+  transform: translateY(0);
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 1.5rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: rgba(236, 72, 153, 0.3);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.modal-icon {
+  font-size: 2.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  border-radius: 16px;
+}
+
+.modal-info-bar {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 12px 18px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
+
+.info-item span {
+  display: block;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+}
+
+.info-item strong {
+  font-size: 1rem;
+  color: #06b6d4;
+}
+
+.modal-section {
+  margin-bottom: 20px;
+}
+
+.modal-section h4 {
+  font-size: 0.95rem;
+  color: #f1f5f9;
+  margin-bottom: 10px;
+  letter-spacing: 0.5px;
+}
+
+.modal-checklist {
+  list-style: none;
+}
+
+.modal-checklist li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+  font-size: 0.92rem;
+  color: #cbd5e1;
+}
+
+.modal-checklist input[type="checkbox"] {
+  accent-color: #7c3aed;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.modal-notes {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  background: rgba(124, 58, 237, 0.08);
+  border-left: 3px solid #7c3aed;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+}
